@@ -1,7 +1,46 @@
-# Environments
+# Virtual Environment
 .env
 .venv
 env/
 venv/
-ENV/
 app/env/
+
+# Python Files
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment Files
+.env
+
+# Logs and Debug
+*.log
+*.out
+*.err
+
+# IDE/Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing and Coverage
+htmlcov/
+.tox/
+.nox/
+*.cover
+coverage.*
+.cache
+
+# Build/Distribution
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+*.whl
+
+# OS Files
+.DS_Store
+Thumbs.db
