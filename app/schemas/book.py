@@ -11,3 +11,4 @@ class BorrowRecord():
     book_id: str
     borrow_date: datetime
     return_date: datetime
+
