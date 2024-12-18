@@ -1,15 +1,18 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 from uuid import UUID
 
 class UserBase(BaseModel):
     name: str
-    email: EmailStr
+    email: str
     password: str
     is_active: bool = True
 
 class Login(UserBase):
-    email: EmailStr
+    email: str
     password: str
+
+class UserCreate(UserBase):
+    pass
 
 class UserStatus(UserBase):
     is_active: bool = False
