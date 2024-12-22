@@ -4,7 +4,6 @@ from main import app  # Import your FastAPI app
 
 client = TestClient(app)
 
-# Test data
 new_user = {
     "name": "John Doe",
     "email": "john.doe@example.com",
@@ -19,32 +18,32 @@ updated_user = {
     "is_active": True
 }
 
-# Test: Create a new user
+# Create a new user
 def test_create_user():
     response = client.post("/users", json=new_user)
     assert response.status_code == 200
     assert "id" in response.json()
     assert response.json()["email"] == new_user["email"]
 
-# Test: Get all users
+# Get all users
 def test_get_all_users():
     response = client.get("/users")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
-# Test: Update a user
+# Update a user
 def test_update_user():
     response = client.put("/users/1", json=updated_user)
     assert response.status_code == 200
     assert response.json()["name"] == updated_user["name"]
 
-# Test: Get a user by email
+# Get a user by email
 def test_get_user_by_email():
     response = client.get("/users/", params={"email": "john.doe@example.com"})
     assert response.status_code == 200
     assert response.json()["email"] == "john.doe@example.com"
 
-# Test: Delete a user
+#  Delete a user
 def test_delete_user():
     response = client.delete("/users/1")
     assert response.status_code == 200

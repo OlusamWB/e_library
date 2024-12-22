@@ -21,25 +21,25 @@ def test_borrow_book():
     assert response.status_code == 200
     assert response.json() == {"message": "Book borrowed successfully."}
 
-# Test: Get all borrow records
+# Get all borrow records
 def test_get_all_borrow_records():
     response = client.get("/borrow-records")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
-# Test: Get borrow records for a specific user
+# Get borrow records for a specific user
 def test_get_user_borrow_records():
     response = client.get("/borrow-records/1")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
-# Test: Return a book
+#Return a book
 def test_return_book():
     response = client.post("/return-book/", json=return_request)
     assert response.status_code == 200
     assert response.json() == {"message": "Book returned successfully."}
 
-# Test: Borrowing with invalid book_id
+# Borrowing with invalid book_id
 def test_borrow_book_invalid_book_id():
     invalid_borrow_request = {
         "book_id": 999,  # Assuming book 999 doesn't exist
@@ -49,7 +49,7 @@ def test_borrow_book_invalid_book_id():
     assert response.status_code == 400
     assert response.json() == {"detail": "Book not available."}
 
-# Test: Returning a book with incorrect user_id
+# Returning a book with incorrect user_id
 def test_return_book_invalid_user():
     invalid_return_request = {
         "book_id": 1,
