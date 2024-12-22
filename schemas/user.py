@@ -1,18 +1,34 @@
-from pydantic import BaseModel
-from uuid import UUID
+from pydantic import BaseModel, EmailStr
+from typing import Optional
 
 class UserBase(BaseModel):
     name: str
-    email: str
-    password: str
+    email: EmailStr
     is_active: bool = True
 
-class Login(UserBase):
-    email: str
-    password: str
+    class Config:
+        orm_mode = True  # Ensures compatibility with ORM models if needed
 
 class UserCreate(UserBase):
-    pass
+    password: str
 
-class UserStatus(UserBase):
-    is_active: bool = False
+class UserUpdate(BaseModel):
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    password: Optional[str] = None
+    is_active: Optional[bool] = None
+
+    class Config:
+        orm_mode = True
+
+class UserResponse(BaseModel):
+    id: int
+    name: str
+    email: EmailStr
+    is_active: bool
+
+    class Config:
+        orm_mode = True
+
+class UserOut(UserResponse):
+    pass
