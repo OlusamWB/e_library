@@ -1,33 +1,71 @@
-from pydantic import BaseModel
-from datetime import date
-from typing import Optional
+from datetime import datetime
+from typing import List
+from schemas.borrow import BorrowRecordResponse
 
-# Base schema for borrow records (user and book identifiers)
-class BorrowRecordBase(BaseModel):
-    user_id: int
-    book_id: int
+# Mock database for borrow records and books
+borrow_records = []
+books = [
+    {"id": 1, "title": "Clean Code", "author": "Robert C. Martin", "is_available": True},
+    {"id": 2, "title": "The Pragmatic Programmer", "author": "Andrew Hunt", "is_available": True},
+]
 
-# Schema for creating a borrow record (borrow_date is required)
-class BorrowCreate(BorrowRecordBase):
-    borrow_date: date
+class BorrowCrud:
+    @staticmethod
+    def get_all_borrow_records() -> List[BorrowRecordResponse]:
+        """Retrieve all borrow records."""
+        return borrow_records
 
-# Schema for the return operation (requires return_date)
-class BorrowReturn(BaseModel):
-    return_date: date
+    @staticmethod
+    def get_borrow_records_by_user(user_id: int) -> List[BorrowRecordResponse]:
+        """Retrieve borrow records for a specific user."""
+        user_records = [
+            record for record in borrow_records if record["user_id"] == user_id
+        ]
+        return user_records
 
-# Schema for the borrowed record with optional return_date
-class BorrowOut(BorrowRecordBase):
-    id: int
-    borrow_date: date
-    return_date: Optional[date] = None  # Marked optional because the book may not be returned yet
+    @staticmethod
+    def borrow_book(book_id: int, user_id: int) -> str:
+        """Borrow a book if available."""
+        # Check if book exists and is available
+        book = next((book for book in books if book["id"] == book_id), None)
+        if not book:
+            raise ValueError("Book not found.")
+        if not book["is_available"]:
+            raise ValueError("Book is not available for borrowing.")
 
-    class Config:
-        orm_mode = True  # If using ORM like SQLAlchemy, this is needed for compatibility
+        # Create a new borrow record
+        borrow_record = {
+            "id": len(borrow_records) + 1,
+            "user_id": user_id,
+            "book_id": book_id,
+            "borrow_date": datetime.now(),
+            "return_date": None,
+        }
+        borrow_records.append(borrow_record)
 
-# Alternative names for request models to be used in routes (e.g., BorrowRequest, ReturnRequest)
-class BorrowRequest(BaseModel):
-    book_id: int
-    borrower_name: str
+        # Mark the book as unavailable
+        book["is_available"] = False
+        return f"Book '{book['title']}' has been borrowed successfully."
 
-class ReturnRequest(BaseModel):
-    book_id: int
+    @staticmethod
+    def return_book(book_id: int, user_id: int) -> str:
+        """Return a borrowed book."""
+        # Find the borrow record
+        record = next(
+            (record for record in borrow_records if record["book_id"] == book_id and record["user_id"] == user_id),
+            None,
+        )
+        if not record:
+            raise ValueError("No matching borrow record found.")
+        if record["return_date"]:
+            raise ValueError("Book has already been returned.")
+
+        # Update the return date in the borrow record
+        record["return_date"] = datetime.now()
+
+        # Mark the book as available
+        book = next((book for book in books if book["id"] == book_id), None)
+        if book:
+            book["is_available"] = True
+
+        return f"Book '{book['title']}' has been returned successfully."

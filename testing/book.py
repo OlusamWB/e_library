@@ -26,7 +26,6 @@ def test_add_book():
     assert "id" in response.json()
     assert response.json()["title"] == new_book["title"]
 
-# Test: Get all books
 def test_get_all_books():
     response = client.get("/books")
     assert response.status_code == 200

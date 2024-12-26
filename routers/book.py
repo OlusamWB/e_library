@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
-from schemas.book import BookCreate, BookUpdate, BookResponse, BorrowRequest, ReturnRequest
+from schemas.book import BookCreate, BookUpdate, BookResponse
 from services.book import BookCrud
 
 book_router = APIRouter()

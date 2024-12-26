@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from datetime import date
+from datetime import date, datetime
 from typing import Optional
 # Base schema for borrow records (user and book identifiers)
 class BorrowRecordBase(BaseModel):
@@ -8,6 +8,11 @@ class BorrowRecordBase(BaseModel):
 
 class BorrowCreate(BorrowRecordBase):
     borrow_date: date
+
+class BorrowRecordResponse(BorrowRecordBase):
+    id: int
+    borrow_date: datetime
+    return_date: Optional[datetime] = None
 
 class BorrowReturn(BaseModel):
     return_date: date
