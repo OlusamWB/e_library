@@ -3,6 +3,7 @@ from typing import List
 from schemas.borrow import BorrowRequest, ReturnRequest, BorrowRecordResponse
 from services.borrow import BorrowCrud
 
+
 borrow_router = APIRouter()
 
 # Get all borrowing records
