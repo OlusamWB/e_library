@@ -49,7 +49,7 @@ class UserCrud:
     def update_user(user_id: int, user_update: UserUpdate) -> UserResponse:
         for user in users:
             if user["id"] == user_id:
-                # Update fields if provided
+                
                 if user_update.name:
                     user["name"] = user_update.name
                 if user_update.email:

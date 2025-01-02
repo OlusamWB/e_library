@@ -27,7 +27,10 @@ class BorrowOut(BorrowRecordBase):
 
 class BorrowRequest(BaseModel):
     book_id: int
+    user_id: int
     borrower_name: str
 
 class ReturnRequest(BaseModel):
     book_id: int
+    user_id: int
+    borrower_name: str

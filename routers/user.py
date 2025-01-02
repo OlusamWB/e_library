@@ -29,8 +29,8 @@ def get_user(email: str):
 def create_user(user: UserCreate):
     try:
         return UserCrud.create_user(user)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Could not create user.")
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Could not create user: {str(e)}")
 
 # Update user details
 @user_router.put("/users/{user_id}", response_model=UserResponse)
