@@ -1,17 +1,8 @@
-# Virtual Environment
-.env
-.venv
-env/
-venv/
-app/env/
-
 # Python Files
 __pycache__/
 *.pyc
 *.pyo
 
-# Environment Files
-.env
 
 # Logs and Debug
 *.log
